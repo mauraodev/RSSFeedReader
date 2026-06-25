@@ -1,50 +1,56 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: template → 1.0.0
+Modified principles: placeholder template → defined five actionable principles
+Added sections: Project Constraints, Development Workflow
+Removed sections: none
+Templates requiring updates: ✅ .specify/templates/plan-template.md (generic, no update required)
+Templates requiring updates: ✅ .specify/templates/spec-template.md (generic, no update required)
+Templates requiring updates: ✅ .specify/templates/tasks-template.md (generic, no update required)
+Follow-up TODOs: none
+-->
+
+# RSSFeedReader Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. MVP Simplicity
+Deliver the minimum viable subscription management experience first. For MVP, the system MUST only support adding a feed URL and displaying the updated subscription list. No feed fetching, parsing, persistence, or URL validation is allowed until Extended-MVP.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Safe Local Boundaries
+Keep the prototype local and narrow the attack surface. Treat subscription URLs as opaque text, do not render untrusted feed content as HTML, and avoid any network or persistence complexity during MVP implementation.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Maintainable Separation
+Keep frontend and backend responsibilities explicit and small. The backend MUST expose a minimal API for subscription add/list operations, and the frontend MUST own input handling and list presentation. This separation must support future feed fetching, persistence, and background work without rewriting core subscription logic.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Quality and Verifiability
+Write code that is easy to understand, easy to verify, and easy to extend. Implementation MUST favor explicit behavior over clever shortcuts, preserve a single source of truth for subscription state, and keep user-visible behavior deterministic.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Documented Configuration
+Document configuration, port coordination, and cleanup requirements as part of development. Before advancing beyond the MVP, verify local port settings, CORS policy, routing cleanup, and the absence of template demo pages.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Project Constraints
+The project is a local single-user RSS/Atom subscription proof-of-concept running on Windows, macOS, or Linux. Use ASP.NET Core Web API for backend responsibilities and Blazor WebAssembly for frontend presentation. For MVP:
+- Store subscriptions in memory only
+- Do not fetch or parse feeds
+- Do not validate feed URLs
+- Keep the UI minimal and functional
+- Coordinate backend port, frontend port, and frontend API base URL explicitly
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Development Workflow
+Before implementing feature code, complete cleanup and verification steps:
+- Remove example Blazor demo pages that conflict with the MVP route structure
+- Ensure only one root route (`@page "/"`) exists in the frontend
+- Confirm frontend, backend, and appsettings port configuration match
+- Verify backend and frontend launch successfully with no ambiguous route errors
+- Use the stakeholder checklist to confirm the app is ready for local MVP testing
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+This constitution is the authoritative source for RSSFeedReader development priorities. Amendments MUST be recorded by updating this file and bumping the constitution version.
+- Patch version bumps apply to clarifications, wording fixes, and non-semantic refinements
+- Minor version bumps apply to new principles, new constraints, or material expansion of guidance
+- Major version bumps apply to principle removal, principle redefinition, or governance changes that alter how the project is managed
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All PRs and reviews MUST include a short compliance summary citing the relevant principle or workflow section. Any deviation from this constitution requires explicit approval from the project owner and a documented mitigation path.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-06-24 | **Last Amended**: 2026-06-24
